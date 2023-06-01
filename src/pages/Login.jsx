@@ -5,7 +5,8 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSignIn } from 'react-auth-kit';
 import API_URL from '../common/data';
 
 export default function Login() {
@@ -15,6 +16,8 @@ export default function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const signIn = useSignIn();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const { username, password } = data;
@@ -28,7 +31,18 @@ export default function Login() {
         password,
         grant_type: 'password',
       };
-      const response = await axios.post(`${API_URL}login`, body, config);
+      const res = await axios.post(`${API_URL}login`, body, config);
+
+      if (
+        signIn({
+          token: res.data.access_token,
+          expiresIn: res.data.expires_in,
+          tokenType: res.data.token_type,
+          authState: { username },
+        })
+      ) {
+        navigate('/home');
+      }
     } catch (err) {
       console.log('Error: ', err);
 

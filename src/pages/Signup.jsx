@@ -76,7 +76,6 @@ export default function Signup() {
           <Form.Control
             {...register('email', { required: 'This field is required' })}
             type="email"
-            placeholder="Enter email"
             isInvalid={!!errors.email}
           />
 
