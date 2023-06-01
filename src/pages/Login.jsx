@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
+import { Link } from 'react-router-dom';
 import API_URL from '../common/data';
 
 export default function Login() {
@@ -86,6 +87,10 @@ export default function Login() {
         <Button variant="primary" type="submit">
           Login
         </Button>
+
+        <Link className="d-block mt-3" to="/signup">
+          Dont have an account? Sign-up here
+        </Link>
       </Form>
     </div>
   );
