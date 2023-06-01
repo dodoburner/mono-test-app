@@ -8,7 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 export default function Header() {
   const signOut = useSignOut();
   const authState = useAuthUser();
-  const user = authState()?.username;
+  const user = authState()?.userName;
 
   return (
     <Navbar bg="light" variant="light">

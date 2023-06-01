@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import { useForm } from 'react-hook-form';
+import { get, useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignIn } from 'react-auth-kit';
@@ -23,22 +23,31 @@ export default function Login() {
     const { username, password } = data;
 
     try {
-      const config = {
+      const loginConfig = {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       };
-      const body = {
+      const loginBody = {
         username,
         password,
         grant_type: 'password',
       };
-      const res = await axios.post(`${API_URL}login`, body, config);
+      const loginRes = await axios.post(
+        `${API_URL}login`,
+        loginBody,
+        loginConfig
+      );
+      const { access_token, expires_in, token_type } = loginRes.data;
+      const getUserConfig = {
+        headers: { Authorization: `bearer ${access_token}` },
+      };
+      const getUserReS = await axios.get(`${API_URL}login`, getUserConfig);
 
       if (
         signIn({
-          token: res.data.access_token,
-          expiresIn: res.data.expires_in,
-          tokenType: res.data.token_type,
-          authState: { username },
+          token: access_token,
+          expiresIn: expires_in,
+          tokenType: token_type,
+          authState: getUserReS.data,
         })
       ) {
         navigate('/home');
