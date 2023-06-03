@@ -1,10 +1,23 @@
 /* eslint-disable */
-import Header from '../components/Header';
+import { useContext, useEffect } from 'react';
+import VehiclesContext from '../common/storeContext';
+import { observer } from 'mobx-react-lite';
 
-export default function VehiclesPage() {
+function VehiclesPage() {
+  const vehiclesStore = useContext(VehiclesContext);
+  const { vehicles } = vehiclesStore;
+
+  useEffect(() => {
+    vehiclesStore.fetchVehicles();
+  }, []);
+
   return (
     <div>
-      <div>Hello this is home</div>
+      {vehicles.map((vehicle) => {
+        return <div>{vehicle.Name}</div>;
+      })}
     </div>
   );
 }
+
+export default observer(VehiclesPage);
