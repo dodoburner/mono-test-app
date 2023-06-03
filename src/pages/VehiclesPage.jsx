@@ -14,7 +14,7 @@ function VehiclesPage() {
   }, []);
 
   return (
-    <Container fluid className='mt-5'>
+    <Container fluid>
       <Row>
         {vehicles.map((vehicle) => (
           <Col key={vehicle.id} className='mb-4'>

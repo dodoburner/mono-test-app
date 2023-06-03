@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import AuthLayout from './layouts/AuthLayout';
 import VehiclesPage from './pages/VehiclesPage';
 import MainLayout from './layouts/MainLayout';
+import VehiclePage from './pages/VehiclePage';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/vehicles" element={<VehiclesPage />} />
-          <Route path="/vehicles/:id" element={<div>Edit</div>} />
+          <Route path="/vehicles/:id" element={<VehiclePage />} />
         </Route>
       </Routes>
     </Router>

@@ -12,7 +12,7 @@ export default function Header() {
   const user = authState()?.userName;
 
   return (
-    <Navbar bg="light" variant="light">
+    <Navbar bg="light" variant="light" className="mb-5">
       <Container>
         <Nav className="d-flex gap-3">
           <Nav.Item>
