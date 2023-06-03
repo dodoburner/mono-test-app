@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from 'react-auth-kit';
+import { UserProvider } from './common/context/userContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,9 @@ root.render(
       cookieDomain={window.location.hostname}
       cookieSecure={window.location.protocol === 'https:'}
     >
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </AuthProvider>
   </React.StrictMode>
 );

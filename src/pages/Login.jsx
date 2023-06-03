@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
@@ -8,8 +8,10 @@ import axios, { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignIn } from 'react-auth-kit';
 import API_URL from '../common/data';
+import UserContext from '../common/context/userContext';
 
 export default function Login() {
+  const userStore = useContext(UserContext);
   const [loginError, setLoginError] = useState('');
   const {
     register,
@@ -47,9 +49,9 @@ export default function Login() {
           token: access_token,
           expiresIn: expires_in,
           tokenType: token_type,
-          authState: getUserReS.data,
         })
       ) {
+        userStore.setUser(getUserReS.data);
         navigate('/vehicles');
       }
     } catch (err) {

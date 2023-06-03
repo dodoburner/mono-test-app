@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import vehiclesStore from './VehiclesStore';
+import vehiclesStore from '../stores/VehiclesStore';
 
 const VehiclesContext = React.createContext(null);
 

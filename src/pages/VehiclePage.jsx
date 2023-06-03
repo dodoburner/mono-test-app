@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import VehiclesContext from '../common/storeContext';
+import VehiclesContext from '../common/context/vehiclesContext';
 import API_URL from '../common/data';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
@@ -29,7 +29,7 @@ function VehiclePage() {
     fetchVehicle();
   }, []);
 
-  console.log(vehicle)
+  console.log(vehicle);
 
   return (
     <div className="container d-flex justify-content-center">

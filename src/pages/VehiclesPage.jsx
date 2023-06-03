@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { useContext, useEffect } from 'react';
-import VehiclesContext from '../common/storeContext';
+import VehiclesContext from '../common/context/vehiclesContext';
 import { observer } from 'mobx-react-lite';
 import Vehicle from '../components/Vehicle';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -17,7 +17,7 @@ function VehiclesPage() {
     <Container fluid>
       <Row>
         {vehicles.map((vehicle) => (
-          <Col key={vehicle.id} className='mb-4'>
+          <Col key={vehicle.id} className="mb-4">
             <Vehicle vehicle={vehicle} />
           </Col>
         ))}

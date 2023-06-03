@@ -1,15 +1,22 @@
 /* eslint-disable */
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import { useAuthUser, useSignOut } from 'react-auth-kit';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
+import UserContext from '../common/context/userContext';
 
-export default function Header() {
+function Header() {
   const signOut = useSignOut();
-  const authState = useAuthUser();
-  const user = authState()?.userName;
+  const userStore = useContext(UserContext);
+  const { user } = userStore;
+
+  const handleSignOut = () => {
+    signOut();
+    userStore.removeUser();
+  };
 
   return (
     <Navbar bg="light" variant="light" className="mb-5">
@@ -22,7 +29,7 @@ export default function Header() {
             <Nav.Item
               role="button"
               className="text-danger"
-              onClick={() => signOut()}
+              onClick={handleSignOut}
             >
               Logout
             </Nav.Item>
@@ -35,10 +42,13 @@ export default function Header() {
 
         {user && (
           <Navbar.Text>
-            Signed in as: <span className="text-dark fst-italic">{user}</span>
+            Signed in as:{' '}
+            <span className="text-dark fst-italic">{user.userName}</span>
           </Navbar.Text>
         )}
       </Container>
     </Navbar>
   );
 }
+
+export default observer(Header);

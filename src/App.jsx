@@ -8,8 +8,18 @@ import AuthLayout from './layouts/AuthLayout';
 import VehiclesPage from './pages/VehiclesPage';
 import MainLayout from './layouts/MainLayout';
 import VehiclePage from './pages/VehiclePage';
+import { useAuthUser } from 'react-auth-kit';
 
 function App() {
+  const user = useAuthUser();
+
+  const isAdmin = () => {
+    const authenticatedUser = user();
+    return (
+      authenticatedUser && authenticatedUser.roles.includes('Administrators')
+    );
+  };
+
   return (
     <Router>
       <Routes>
@@ -22,6 +32,9 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/vehicles" element={<VehiclesPage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
+          {isAdmin() && (
+            <Route path="/vehicles/:id/edit" element={<VehiclePage />} />
+          )}
         </Route>
       </Routes>
     </Router>
