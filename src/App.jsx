@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ActivationPage from './pages/ActivationPage';
@@ -8,7 +7,6 @@ import AuthLayout from './layouts/AuthLayout';
 import VehiclesPage from './pages/VehiclesPage';
 import MainLayout from './layouts/MainLayout';
 import VehiclePage from './pages/VehiclePage';
-import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
 import UserContext from './common/context/userContext';
 import { observer } from 'mobx-react-lite';
 

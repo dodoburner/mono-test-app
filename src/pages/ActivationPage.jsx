@@ -1,38 +1,36 @@
-/*eslint-disable*/
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import API_URL from "../common/data";
 
 export default function ActivationPage() {
-  const [message, setMessage] = useState('Please wait...');
+  const [message, setMessage] = useState("Please wait...");
   const navigate = useNavigate();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const activationToken = urlParams.get('activationToken');
+    const activationToken = urlParams.get("activationToken");
 
     const activateUser = async (token) => {
       if (!token) {
-        setMessage('Must include activation token');
+        setMessage("Must include activation token");
         return;
       }
 
       try {
-        const res = await axios.put(
-          `${API_URL}register/activate/${token}`
-        );
+        const res = await axios.put(`${API_URL}register/activate/${token}`);
 
         if (res.status === 200) {
           setMessage(
-            'You have succesfully activated your account! Redirecting you to the login page'
+            "You have succesfully activated your account! Redirecting you to the login page"
           );
           setTimeout(() => {
-            navigate('/login');
+            navigate("/login");
           }, 2000);
         }
       } catch (err) {
         console.log(err);
-        setMessage('Account activation failed');
+        setMessage("Account activation failed");
       }
     };
 

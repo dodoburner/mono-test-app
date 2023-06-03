@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useContext, useEffect } from 'react';
 import VehiclesContext from '../common/context/vehiclesContext';
 import { observer } from 'mobx-react-lite';

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

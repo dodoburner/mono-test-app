@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { observer } from 'mobx-react-lite';
 import { Card } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';

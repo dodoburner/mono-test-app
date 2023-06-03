@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { makeAutoObservable, runInAction } from 'mobx';
 import axios from 'axios';
 import API_URL from '../data';

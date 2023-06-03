@@ -1,12 +1,11 @@
-/* eslint-disable */
-import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { useAuthUser, useSignOut } from 'react-auth-kit';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
-import UserContext from '../common/context/userContext';
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { useSignOut } from "react-auth-kit";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
+import UserContext from "../common/context/userContext";
 
 function Header() {
   const signOut = useSignOut();
@@ -42,7 +41,7 @@ function Header() {
 
         {user && (
           <Navbar.Text>
-            Signed in as:{' '}
+            Signed in as:{" "}
             <span className="text-dark fst-italic">{user.userName}</span>
           </Navbar.Text>
         )}
