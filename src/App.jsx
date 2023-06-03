@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ActivationPage from './pages/ActivationPage';
 import Login from './pages/Login';
@@ -8,17 +8,12 @@ import AuthLayout from './layouts/AuthLayout';
 import VehiclesPage from './pages/VehiclesPage';
 import MainLayout from './layouts/MainLayout';
 import VehiclePage from './pages/VehiclePage';
-import { useAuthUser } from 'react-auth-kit';
+import { useAuthUser, useIsAuthenticated } from 'react-auth-kit';
+import UserContext from './common/context/userContext';
+import { observer } from 'mobx-react-lite';
 
 function App() {
-  const user = useAuthUser();
-
-  const isAdmin = () => {
-    const authenticatedUser = user();
-    return (
-      authenticatedUser && authenticatedUser.roles.includes('Administrators')
-    );
-  };
+  const userStore = useContext(UserContext);
 
   return (
     <Router>
@@ -32,7 +27,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/vehicles" element={<VehiclesPage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
-          {isAdmin() && (
+          {userStore.isAdmin && (
             <Route path="/vehicles/:id/edit" element={<VehiclePage />} />
           )}
         </Route>
@@ -41,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

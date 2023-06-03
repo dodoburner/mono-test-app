@@ -29,8 +29,6 @@ function VehiclePage() {
     fetchVehicle();
   }, []);
 
-  console.log(vehicle);
-
   return (
     <div className="container d-flex justify-content-center">
       {vehicle && (

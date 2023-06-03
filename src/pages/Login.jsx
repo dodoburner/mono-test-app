@@ -1,17 +1,15 @@
 /*eslint-disable*/
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import { get, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import axios, { AxiosError } from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignIn } from 'react-auth-kit';
 import API_URL from '../common/data';
-import UserContext from '../common/context/userContext';
 
 export default function Login() {
-  const userStore = useContext(UserContext);
   const [loginError, setLoginError] = useState('');
   const {
     register,
@@ -25,33 +23,25 @@ export default function Login() {
     const { username, password } = data;
 
     try {
-      const loginConfig = {
+      const config = {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       };
-      const loginBody = {
+      const body = {
         username,
         password,
         grant_type: 'password',
       };
-      const loginRes = await axios.post(
-        `${API_URL}login`,
-        loginBody,
-        loginConfig
-      );
-      const { access_token, expires_in, token_type } = loginRes.data;
-      const getUserConfig = {
-        headers: { Authorization: `bearer ${access_token}` },
-      };
-      const getUserReS = await axios.get(`${API_URL}login`, getUserConfig);
+      const res = await axios.post(`${API_URL}login`, body, config);
+      const { access_token, expires_in, token_type } = res.data;
 
       if (
         signIn({
           token: access_token,
           expiresIn: expires_in,
           tokenType: token_type,
+          authState: {},
         })
       ) {
-        userStore.setUser(getUserReS.data);
         navigate('/vehicles');
       }
     } catch (err) {

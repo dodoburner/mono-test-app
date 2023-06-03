@@ -1,5 +1,7 @@
 /* eslint-disable */
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
+import axios from 'axios';
+import API_URL from '../data';
 
 class UserStore {
   user = null;
@@ -9,9 +11,20 @@ class UserStore {
     makeAutoObservable(this);
   }
 
-  setUser(userData) {
-    this.user = userData;
-    this.isAdmin = userData.roles.includes('Administrators');
+  async fetchUser(token) {
+    try {
+      const config = {
+        headers: { Authorization: token },
+      };
+      const res = await axios.get(`${API_URL}login`, config);
+      const { data } = res;
+      runInAction(() => {
+        this.user = data;
+        this.isAdmin = data.roles.includes('Administrators');
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   removeUser() {
