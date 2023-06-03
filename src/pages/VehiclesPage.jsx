@@ -1,10 +1,9 @@
 /* eslint-disable */
 import Header from '../components/Header';
 
-export default function HomePage() {
+export default function VehiclesPage() {
   return (
     <div>
-      <Header />
       <div>Hello this is home</div>
     </div>
   );

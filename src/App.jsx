@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ActivationPage from './pages/ActivationPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import HomePage from './pages/HomePage';
 import AuthLayout from './layouts/AuthLayout';
+import VehiclesPage from './pages/VehiclesPage';
+import MainLayout from './layouts/MainLayout';
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Route>
 
-        <Route path="/vehicles" element={<HomePage />} />
-        <Route path="/vehicles/:id" element={<div>Edit</div>} />
+        <Route element={<MainLayout />}>
+          <Route path="/vehicles" element={<VehiclesPage />} />
+          <Route path="/vehicles/:id" element={<div>Edit</div>} />
+        </Route>
       </Routes>
     </Router>
   );
