@@ -14,7 +14,7 @@ export default function Header() {
     <Navbar bg="light" variant="light">
       <Container>
         <Nav>
-          <Nav.Link href="/home">Home</Nav.Link>
+          <Nav.Link href="/vehicles">Home</Nav.Link>
           {user ? (
             <Nav.Link className="text-danger" onClick={() => signOut()}>
               Logout

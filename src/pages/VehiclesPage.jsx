@@ -2,6 +2,8 @@
 import { useContext, useEffect } from 'react';
 import VehiclesContext from '../common/storeContext';
 import { observer } from 'mobx-react-lite';
+import Vehicle from '../components/Vehicle';
+import { Col, Container, Row } from 'react-bootstrap';
 
 function VehiclesPage() {
   const vehiclesStore = useContext(VehiclesContext);
@@ -12,11 +14,15 @@ function VehiclesPage() {
   }, []);
 
   return (
-    <div>
-      {vehicles.map((vehicle) => {
-        return <div>{vehicle.Name}</div>;
-      })}
-    </div>
+    <Container fluid className='mt-5'>
+      <Row>
+        {vehicles.map((vehicle) => (
+          <Col key={vehicle.id} className='mb-4'>
+            <Vehicle vehicle={vehicle} />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 }
 
