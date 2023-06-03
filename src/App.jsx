@@ -9,6 +9,7 @@ import MainLayout from "./layouts/MainLayout";
 import VehiclePage from "./pages/VehiclePage";
 import UserContext from "./common/context/userContext";
 import { observer } from "mobx-react-lite";
+import VehicleEditPage from "./pages/VehicleEditPage";
 
 function App() {
   const userStore = useContext(UserContext);
@@ -26,7 +27,7 @@ function App() {
           <Route path="/" element={<VehiclesPage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
           {userStore.isAdmin && (
-            <Route path="/vehicles/:id/edit" element={<VehiclePage />} />
+            <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
           )}
         </Route>
       </Routes>
