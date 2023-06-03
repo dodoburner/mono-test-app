@@ -4,6 +4,7 @@ import { useAuthUser, useSignOut } from 'react-auth-kit';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const signOut = useSignOut();
@@ -13,14 +14,22 @@ export default function Header() {
   return (
     <Navbar bg="light" variant="light">
       <Container>
-        <Nav>
-          <Nav.Link href="/vehicles">Home</Nav.Link>
+        <Nav className="d-flex gap-3">
+          <Nav.Item>
+            <Link to="/vehicles">Home</Link>
+          </Nav.Item>
           {user ? (
-            <Nav.Link className="text-danger" onClick={() => signOut()}>
+            <Nav.Item
+              role="button"
+              className="text-danger"
+              onClick={() => signOut()}
+            >
               Logout
-            </Nav.Link>
+            </Nav.Item>
           ) : (
-            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Item>
+              <Link to="/login">Login</Link>
+            </Nav.Item>
           )}
         </Nav>
 
