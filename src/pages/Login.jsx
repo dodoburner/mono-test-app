@@ -41,7 +41,7 @@ export default function Login() {
           authState: {},
         })
       ) {
-        navigate('/vehicles');
+        navigate('/');
       }
     } catch (err) {
       console.log('Error: ', err);

@@ -22,7 +22,7 @@ function Header() {
       <Container>
         <Nav className="d-flex gap-3">
           <Nav.Item>
-            <Link to="/vehicles">Home</Link>
+            <Link to="/">Home</Link>
           </Nav.Item>
           {user ? (
             <Nav.Item
