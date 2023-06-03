@@ -50,7 +50,7 @@ export default function Login() {
           authState: getUserReS.data,
         })
       ) {
-        navigate('/home');
+        navigate('/vehicles');
       }
     } catch (err) {
       console.log('Error: ', err);

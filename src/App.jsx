@@ -5,16 +5,20 @@ import ActivationPage from './pages/ActivationPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import HomePage from './pages/HomePage';
+import AuthLayout from './layouts/AuthLayout';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/activate" element={<ActivationPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/vehicle/:id" element={<div>Edit</div>} />
+        <Route element={<AuthLayout />}>
+          <Route path="/activate" element={<ActivationPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
+
+        <Route path="/vehicles" element={<HomePage />} />
+        <Route path="/vehicles/:id" element={<div>Edit</div>} />
       </Routes>
     </Router>
   );
