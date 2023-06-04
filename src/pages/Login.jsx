@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
-import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSignIn } from 'react-auth-kit';
-import API_URL from '../common/data';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
+import API_URL from "../common/data";
 
 export default function Login() {
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState("");
   const {
     register,
     handleSubmit,
@@ -23,12 +23,12 @@ export default function Login() {
 
     try {
       const config = {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
       };
       const body = {
         username,
         password,
-        grant_type: 'password',
+        grant_type: "password",
       };
       const res = await axios.post(`${API_URL}login`, body, config);
       const { access_token, expires_in, token_type } = res.data;
@@ -41,11 +41,11 @@ export default function Login() {
           authState: {},
         })
       ) {
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-      console.log('Error: ', err);
-      setLoginError(err.message)
+      console.log("Error: ", err);
+      setLoginError(err.message);
     }
   };
 
@@ -61,7 +61,7 @@ export default function Login() {
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            {...register('username', { required: 'This field is required' })}
+            {...register("username", { required: "This field is required" })}
             type="text"
             isInvalid={!!errors.username}
           />
@@ -74,16 +74,16 @@ export default function Login() {
         <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            {...register('password', {
-              required: 'This field is required',
+            {...register("password", {
+              required: "This field is required",
               minLength: {
                 value: 8,
-                message: 'Password length must be atleast 8 charachters',
+                message: "Password length must be atleast 8 charachters",
               },
               pattern: {
                 value: /^(?=.*[^a-zA-Z0-9]).+$/,
                 message:
-                  'Password must contains at least one non-alphanumeric character',
+                  "Password must contains at least one non-alphanumeric character",
               },
             })}
             type="password"

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import API_URL from "../common/data";
-import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -8,14 +7,11 @@ import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
 
-export default function VehicleEditPage() {
-  const [vehicle, setVehicle] = useState(null);
+export default function AddVehiclePage() {
   const [makes, setMakes] = useState(null);
   const [apiError, setApiError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const authToken = useAuthHeader();
-  const params = useParams();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -23,22 +19,17 @@ export default function VehicleEditPage() {
   } = useForm();
 
   useEffect(() => {
-    const fetchVehicleAndMakes = async () => {
+    const fetchMakes = async () => {
       try {
-        const res = await axios.get(
-          `${API_URL}resources/VehicleModel/${params.id}`
-        );
-        const res2 = await axios.get(`${API_URL}resources/VehicleMake`);
-
-        setVehicle(res.data);
-        setMakes(res2.data.item);
+        const res = await axios.get(`${API_URL}resources/VehicleMake`);
+        setMakes(res.data.item);
       } catch (err) {
         console.log("Error: ", err);
         setApiError(err.message);
       }
     };
 
-    fetchVehicleAndMakes();
+    fetchMakes();
   }, []);
 
   const onSubmit = async (data) => {
@@ -46,37 +37,14 @@ export default function VehicleEditPage() {
       const config = {
         headers: { Authorization: authToken() },
       };
-      const res = await axios.put(
-        `${API_URL}resources/VehicleModel/${params.id}`,
+      const res = await axios.post(
+        `${API_URL}resources/VehicleModel`,
         data,
         config
       );
 
-      if (res.status === 204) {
-        setSuccessMsg("Successfully updated the vehicle!");
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
-  };
-
-  const onDelete = async () => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const res = await axios.delete(
-        `${API_URL}resources/VehicleModel/${params.id}`,
-        config
-      );
-      console.log(res);
-
-      if (res.status === 204) {
-        setSuccessMsg("Successfully deleted the vehicle!");
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+      if (res.status === 201) {
+        setSuccessMsg("Successfully added the vehicle!");
       }
     } catch (err) {
       console.log("Error: ", err);
@@ -104,7 +72,7 @@ export default function VehicleEditPage() {
         </Alert>
       )}
 
-      {vehicle && makes && (
+      {makes && (
         <div className="w-50">
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="name">
@@ -115,7 +83,6 @@ export default function VehicleEditPage() {
                 })}
                 type="text"
                 isInvalid={!!errors.Name}
-                defaultValue={vehicle.Name}
               />
 
               <Form.Control.Feedback type="invalid">
@@ -131,7 +98,6 @@ export default function VehicleEditPage() {
                 })}
                 type="text"
                 isInvalid={!!errors.Abrv}
-                defaultValue={vehicle.Abrv}
               />
 
               <Form.Control.Feedback type="invalid">
@@ -147,7 +113,6 @@ export default function VehicleEditPage() {
                 })}
                 type="text"
                 isInvalid={!!errors.Img}
-                defaultValue={vehicle.Img}
               />
 
               <Form.Control.Feedback type="invalid">
@@ -156,11 +121,7 @@ export default function VehicleEditPage() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="makes">
-              <Form.Select
-                aria-label="select make"
-                {...register("MakeId")}
-                defaultValue={vehicle.MakeId}
-              >
+              <Form.Select aria-label="select make" {...register("MakeId")}>
                 {makes.map((make) => {
                   return (
                     <option key={make.id} value={make.id}>
@@ -171,15 +132,9 @@ export default function VehicleEditPage() {
               </Form.Select>
             </Form.Group>
 
-            <div className="d-flex justify-content-between">
-              <Button variant="primary" type="submit">
-                Edit Vehicle
-              </Button>
-
-              <Button variant="danger" type="button" onClick={onDelete}>
-                Delete Vehicle
-              </Button>
-            </div>
+            <Button variant="primary" type="submit">
+              Add Vehicle
+            </Button>
           </Form>
         </div>
       )}

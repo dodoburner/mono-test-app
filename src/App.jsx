@@ -7,8 +7,8 @@ import AuthLayout from "./layouts/AuthLayout";
 import VehiclesPage from "./pages/VehiclesPage";
 import MainLayout from "./layouts/MainLayout";
 import VehiclePage from "./pages/VehiclePage";
-import { observer } from "mobx-react-lite";
 import VehicleEditPage from "./pages/VehicleEditPage";
+import AddVehiclePage from "./pages/AddVehiclePage";
 
 function App() {
   return (
@@ -22,6 +22,7 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/" element={<VehiclesPage />} />
+          <Route path="/add-vehicle" element={<AddVehiclePage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
           <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
         </Route>
@@ -30,4 +31,4 @@ function App() {
   );
 }
 
-export default observer(App);
+export default App;

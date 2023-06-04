@@ -1,8 +1,9 @@
-import { useContext, useEffect } from 'react';
-import VehiclesContext from '../common/context/vehiclesContext';
-import { observer } from 'mobx-react-lite';
-import Vehicle from '../components/Vehicle';
-import { Col, Container, Row } from 'react-bootstrap';
+import { useContext, useEffect } from "react";
+import VehiclesContext from "../common/context/vehiclesContext";
+import { observer } from "mobx-react-lite";
+import Vehicle from "../components/Vehicle";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function VehiclesPage() {
   const vehiclesStore = useContext(VehiclesContext);
@@ -21,6 +22,10 @@ function VehiclesPage() {
           </Col>
         ))}
       </Row>
+
+      <Button type="button" variant="primary">
+        <Link to="/add-vehicle">+ Add Vehicle</Link>
+      </Button>
     </Container>
   );
 }

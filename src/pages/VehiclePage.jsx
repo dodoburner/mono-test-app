@@ -1,11 +1,10 @@
-import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../common/data";
 import { Alert, Card } from "react-bootstrap";
 
-function VehiclePage() {
+export default function VehiclePage() {
   const [apiError, setApiError] = useState(null);
   const [vehicle, setVehicle] = useState(null);
   const params = useParams();
@@ -57,5 +56,3 @@ function VehiclePage() {
     </div>
   );
 }
-
-export default observer(VehiclePage);

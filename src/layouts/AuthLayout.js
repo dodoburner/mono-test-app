@@ -8,7 +8,7 @@ export default function AuthLayout() {
 
   useEffect(() => {
     if (isSignedIn()) {
-      navigate("/vehicles");
+      navigate("/");
     }
   }, []);
 

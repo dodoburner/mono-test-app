@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
-import { useForm } from 'react-hook-form';
-import axios, { AxiosError } from 'axios';
-import { Link } from 'react-router-dom';
-import API_URL from '../common/data';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Alert from "react-bootstrap/Alert";
+import { useForm } from "react-hook-form";
+import axios, { AxiosError } from "axios";
+import { Link } from "react-router-dom";
+import API_URL from "../common/data";
 
 export default function Signup() {
-  const [loginError, setLoginError] = useState('');
-  const [message, setMessage] = useState('');
+  const [apiError, setApiError] = useState("");
+  const [message, setMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -27,26 +27,23 @@ export default function Signup() {
         password,
         confirmPassword,
         activationUrl:
-          'http://localhost:3000/activate?activationToken={activationToken}',
+          "http://localhost:3000/activate?activationToken={activationToken}",
       };
       const response = await axios.post(`${API_URL}register`, body);
       if (response.status === 200) {
-        setMessage('Please check your email to confirm you account');
+        setMessage("Please check your email to confirm you account");
       }
     } catch (err) {
-      console.log('Error: ', err);
-
-      if (err && err instanceof AxiosError) {
-        setLoginError(err.response.data.error_description);
-      } else if (err && err instanceof Error) setLoginError(err.message);
+      console.log("Error: ", err);
+      setApiError(err.message);
     }
   };
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
-      {loginError && (
+      {apiError && (
         <Alert variant="danger m-3 flex-center position-fixed top-0 px-5">
-          {loginError}
+          {apiError}
         </Alert>
       )}
 
@@ -60,7 +57,7 @@ export default function Signup() {
         <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            {...register('username', { required: 'This field is required' })}
+            {...register("username", { required: "This field is required" })}
             type="text"
             isInvalid={!!errors.username}
           />
@@ -73,7 +70,7 @@ export default function Signup() {
         <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
-            {...register('email', { required: 'This field is required' })}
+            {...register("email", { required: "This field is required" })}
             type="email"
             isInvalid={!!errors.email}
           />
@@ -90,16 +87,16 @@ export default function Signup() {
         <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            {...register('password', {
-              required: 'This field is required',
+            {...register("password", {
+              required: "This field is required",
               minLength: {
                 value: 8,
-                message: 'Password length must be atleast 8 charachters',
+                message: "Password length must be atleast 8 charachters",
               },
               pattern: {
                 value: /^(?=.*[^a-zA-Z0-9]).+$/,
                 message:
-                  'Password must contains at least one non-alphanumeric character',
+                  "Password must contains at least one non-alphanumeric character",
               },
             })}
             type="password"
@@ -114,10 +111,10 @@ export default function Signup() {
         <Form.Group className="mb-3" controlId="formConfirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            {...register('confirmPassword', {
-              required: 'Please confirm your password',
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
               validate: (value) =>
-                value === watch('password') || 'Passwords do not match',
+                value === watch("password") || "Passwords do not match",
             })}
             type="password"
             isInvalid={!!errors.confirmPassword}
