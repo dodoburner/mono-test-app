@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ActivationPage from "./pages/ActivationPage";
 import Login from "./pages/Login";
@@ -7,13 +7,10 @@ import AuthLayout from "./layouts/AuthLayout";
 import VehiclesPage from "./pages/VehiclesPage";
 import MainLayout from "./layouts/MainLayout";
 import VehiclePage from "./pages/VehiclePage";
-import UserContext from "./common/context/userContext";
 import { observer } from "mobx-react-lite";
 import VehicleEditPage from "./pages/VehicleEditPage";
 
 function App() {
-  const userStore = useContext(UserContext);
-
   return (
     <Router>
       <Routes>
@@ -26,9 +23,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<VehiclesPage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
-          {userStore.isAdmin && (
-            <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
-          )}
+          <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
         </Route>
       </Routes>
     </Router>

@@ -29,7 +29,7 @@ export default function ActivationPage() {
           }, 2000);
         }
       } catch (err) {
-        console.log(err);
+        console.log("Error: ", err);
         setMessage("Account activation failed");
       }
     };

@@ -45,10 +45,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log('Error: ', err);
-
-      if (err && err instanceof AxiosError) {
-        setLoginError(err.response.data.error_description);
-      } else if (err && err instanceof Error) setLoginError(err.message);
+      setLoginError(err.message)
     }
   };
 

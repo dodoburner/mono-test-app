@@ -1,10 +1,10 @@
-import { observer } from 'mobx-react-lite';
-import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import VehiclesContext from '../common/context/vehiclesContext';
-import API_URL from '../common/data';
-import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { observer } from "mobx-react-lite";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import VehiclesContext from "../common/context/vehiclesContext";
+import API_URL from "../common/data";
+import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 
 function VehiclePage() {
   const vehiclesStore = useContext(VehiclesContext);
@@ -14,10 +14,8 @@ function VehiclePage() {
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
-        const config = { headers: { Accept: 'application/hal+json' } };
         const res = await axios.get(
-          `${API_URL}resources/VehicleModel/${params.id}`,
-          config
+          `${API_URL}resources/VehicleModel/${params.id}`
         );
         setVehicle(res.data);
       } catch (e) {
@@ -35,11 +33,11 @@ function VehiclePage() {
           <Card.Img
             variant="top"
             src={vehicle.Img}
-            style={{ height: '400px' }}
+            style={{ height: "400px" }}
           />
           <Card.Body>
             <Card.Title className="fs-2">
-              {vehicle.Name}{' '}
+              {vehicle.Name}{" "}
               <span className="fs-3 fst-italic text-secondary">
                 ({vehicle.Abrv})
               </span>
