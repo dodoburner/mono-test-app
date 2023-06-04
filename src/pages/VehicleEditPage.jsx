@@ -71,7 +71,9 @@ export default function VehicleEditPage() {
       );
 
       if (res.status === 204) {
-        setSuccessMsg("Successfully deleted the vehicle!");
+        setSuccessMsg(
+          "Successfully deleted the vehicle! Redirecting you to the main page."
+        );
         setTimeout(() => {
           navigate("/");
         }, 2000);
