@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import API_URL from "../common/data";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,10 +7,10 @@ import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
+import VehiclesContext from "../common/context/vehiclesContext";
 
 export default function VehicleEditPage() {
   const [vehicle, setVehicle] = useState(null);
-  const [makes, setMakes] = useState(null);
   const [apiError, setApiError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const authToken = useAuthHeader();
@@ -21,24 +21,23 @@ export default function VehicleEditPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const vehiclesStore = useContext(VehiclesContext);
+  const { makes } = vehiclesStore;
 
   useEffect(() => {
-    const fetchVehicleAndMakes = async () => {
+    const fetchVehicle = async () => {
       try {
         const res = await axios.get(
           `${API_URL}resources/VehicleModel/${params.id}`
         );
-        const res2 = await axios.get(`${API_URL}resources/VehicleMake`);
-
         setVehicle(res.data);
-        setMakes(res2.data.item);
       } catch (err) {
         console.log("Error: ", err);
         setApiError(err.message);
       }
     };
 
-    fetchVehicleAndMakes();
+    fetchVehicle();
   }, []);
 
   const onSubmit = async (data) => {
@@ -70,7 +69,6 @@ export default function VehicleEditPage() {
         `${API_URL}resources/VehicleModel/${params.id}`,
         config
       );
-      console.log(res);
 
       if (res.status === 204) {
         setSuccessMsg("Successfully deleted the vehicle!");
@@ -104,7 +102,7 @@ export default function VehicleEditPage() {
         </Alert>
       )}
 
-      {vehicle && makes && (
+      {vehicle && (
         <div className="w-50">
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group className="mb-3" controlId="name">

@@ -1,23 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthProvider } from 'react-auth-kit';
-import { UserProvider } from './common/context/userContext';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { AuthProvider } from "react-auth-kit";
+import { UserProvider } from "./common/context/userContext";
+import { VehiclesProvider } from "./common/context/vehiclesContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthProvider
-      authType={'cookie'}
-      authName={'_auth'}
+      authType={"cookie"}
+      authName={"_auth"}
       cookieDomain={window.location.hostname}
-      cookieSecure={window.location.protocol === 'https:'}
+      cookieSecure={window.location.protocol === "https:"}
     >
       <UserProvider>
-        <App />
+        <VehiclesProvider>
+          <App />
+        </VehiclesProvider>
       </UserProvider>
     </AuthProvider>
   </React.StrictMode>

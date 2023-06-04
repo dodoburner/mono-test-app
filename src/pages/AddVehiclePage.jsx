@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import API_URL from "../common/data";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
@@ -6,9 +6,9 @@ import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
+import VehiclesContext from "../common/context/vehiclesContext";
 
 export default function AddVehiclePage() {
-  const [makes, setMakes] = useState(null);
   const [apiError, setApiError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
   const authToken = useAuthHeader();
@@ -17,20 +17,8 @@ export default function AddVehiclePage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    const fetchMakes = async () => {
-      try {
-        const res = await axios.get(`${API_URL}resources/VehicleMake`);
-        setMakes(res.data.item);
-      } catch (err) {
-        console.log("Error: ", err);
-        setApiError(err.message);
-      }
-    };
-
-    fetchMakes();
-  }, []);
+  const vehiclesStore = useContext(VehiclesContext);
+  const { makes } = vehiclesStore;
 
   const onSubmit = async (data) => {
     try {
@@ -72,72 +60,70 @@ export default function AddVehiclePage() {
         </Alert>
       )}
 
-      {makes && (
-        <div className="w-50">
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group className="mb-3" controlId="name">
-              <Form.Label>Vehicle Name</Form.Label>
-              <Form.Control
-                {...register("Name", {
-                  required: "This field is required",
-                })}
-                type="text"
-                isInvalid={!!errors.Name}
-              />
+      <div className="w-50">
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Vehicle Name</Form.Label>
+            <Form.Control
+              {...register("Name", {
+                required: "This field is required",
+              })}
+              type="text"
+              isInvalid={!!errors.Name}
+            />
 
-              <Form.Control.Feedback type="invalid">
-                {errors.Name?.message}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Form.Control.Feedback type="invalid">
+              {errors.Name?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="abbreviation">
-              <Form.Label>Vehicle Abbreviation</Form.Label>
-              <Form.Control
-                {...register("Abrv", {
-                  required: "This field is required",
-                })}
-                type="text"
-                isInvalid={!!errors.Abrv}
-              />
+          <Form.Group className="mb-3" controlId="abbreviation">
+            <Form.Label>Vehicle Abbreviation</Form.Label>
+            <Form.Control
+              {...register("Abrv", {
+                required: "This field is required",
+              })}
+              type="text"
+              isInvalid={!!errors.Abrv}
+            />
 
-              <Form.Control.Feedback type="invalid">
-                {errors.Abrv?.message}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Form.Control.Feedback type="invalid">
+              {errors.Abrv?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="image">
-              <Form.Label>Vehicle Image Link</Form.Label>
-              <Form.Control
-                {...register("Img", {
-                  required: "This field is required",
-                })}
-                type="text"
-                isInvalid={!!errors.Img}
-              />
+          <Form.Group className="mb-3" controlId="image">
+            <Form.Label>Vehicle Image Link</Form.Label>
+            <Form.Control
+              {...register("Img", {
+                required: "This field is required",
+              })}
+              type="text"
+              isInvalid={!!errors.Img}
+            />
 
-              <Form.Control.Feedback type="invalid">
-                {errors.Img?.message}
-              </Form.Control.Feedback>
-            </Form.Group>
+            <Form.Control.Feedback type="invalid">
+              {errors.Img?.message}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-            <Form.Group className="mb-3" controlId="makes">
-              <Form.Select aria-label="select make" {...register("MakeId")}>
-                {makes.map((make) => {
-                  return (
-                    <option key={make.id} value={make.id}>
-                      {make.Name}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
+          <Form.Group className="mb-3" controlId="makes">
+            <Form.Select aria-label="select make" {...register("MakeId")}>
+              {makes.map((make) => {
+                return (
+                  <option key={make.id} value={make.id}>
+                    {make.Name}
+                  </option>
+                );
+              })}
+            </Form.Select>
+          </Form.Group>
 
-            <Button variant="primary" type="submit">
-              Add Vehicle
-            </Button>
-          </Form>
-        </div>
-      )}
+          <Button variant="primary" type="submit">
+            Add Vehicle
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }
