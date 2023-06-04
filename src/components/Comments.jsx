@@ -1,17 +1,18 @@
-import { useContext, useEffect, useState } from "react";
-import { Alert, Button, ListGroup } from "react-bootstrap";
+import {  useEffect, useState } from "react";
+import { Alert, ListGroup } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../common/data";
 import { useParams } from "react-router-dom";
-import UserContext from "../common/context/userContext";
 import { observer } from "mobx-react-lite";
+import AddCommentForm from "./AddCommentForm";
+import { useIsAuthenticated } from "react-auth-kit";
+import Comment from "./Comment";
 
 function Comments() {
-  const userStore = useContext(UserContext);
-  const { user } = userStore;
   const [comments, setComments] = useState([]);
   const [apiError, setApiError] = useState(null);
   const params = useParams();
+  const isSignedIn = useIsAuthenticated();
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -45,26 +46,13 @@ function Comments() {
       <h3 className="mt-4 mb-2">Comments ({comments.length})</h3>
       <ListGroup>
         {comments.map((comment) => {
-          return (
-            <ListGroup.Item
-              as="li"
-              className="d-flex justify-content-between align-items-start"
-              key={comment.id}
-            >
-              <div className="ms-2 me-auto">
-                <div className="fw-bold">{comment.Username}</div>
-                {comment.Text}
-              </div>
-
-              {comment.UserId === user?.id && (
-                <Button variant="danger" type="button">
-                  delete
-                </Button>
-              )}
-            </ListGroup.Item>
-          );
+          return <Comment comment={comment} />
         })}
       </ListGroup>
+
+      {isSignedIn && (
+        <AddCommentForm setApiError={setApiError} setComments={setComments} />
+      )}
     </div>
   );
 }
