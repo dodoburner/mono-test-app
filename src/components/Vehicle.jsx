@@ -16,16 +16,14 @@ function Vehicle({ vehicle }) {
       <Card.Body>
         <Card.Title>{Name}</Card.Title>
         <div className="d-flex justify-content-between">
-          <Button variant="primary">
-            <Link to={`/vehicles/${id}`}>See More</Link>
-          </Button>
+          <Link to={`/vehicles/${id}`}>
+            <Button variant="primary">See More </Button>
+          </Link>
 
           {isAdmin && (
-            <Button variant="warning">
-              <Link to={`/vehicles/${id}/edit`} className="text-light">
-                Edit
-              </Link>
-            </Button>
+            <Link to={`/vehicles/${id}/edit`} className="text-light">
+              <Button variant="warning">Edit</Button>
+            </Link>
           )}
         </div>
       </Card.Body>

@@ -36,7 +36,7 @@ export default function Login() {
       if (
         signIn({
           token: access_token,
-          expiresIn: expires_in,
+          expiresIn: expires_in / 60,
           tokenType: token_type,
           authState: {},
         })

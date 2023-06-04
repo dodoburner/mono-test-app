@@ -69,9 +69,11 @@ function VehiclesPage() {
 
       <Row>{renderVehicles()}</Row>
 
-      <Button type="button" variant="primary">
-        <Link to="/add-vehicle">+ Add Vehicle</Link>
-      </Button>
+      <Link to="/add-vehicle">
+        <Button type="button" variant="primary">
+          + Add Vehicle
+        </Button>
+      </Link>
     </Container>
   );
 }
