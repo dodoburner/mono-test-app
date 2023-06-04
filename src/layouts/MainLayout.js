@@ -22,9 +22,7 @@ function MainLayout() {
   return (
     <div className="vh-100">
       <Header />
-      <div className="container">
-        <Outlet />
-      </div>
+      <Outlet />
     </div>
   );
 }

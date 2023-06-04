@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import VehiclesContext from "../common/context/vehiclesContext";
 import { observer } from "mobx-react-lite";
 import Vehicle from "../components/Vehicle";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 import PaginationComponent from "../components/Pagination";
+import Sidebar from "../components/Sidebar";
 
 function VehiclesPage() {
   const vehiclesStore = useContext(VehiclesContext);
-  const { vehicles, makes } = vehiclesStore;
+  const { vehicles } = vehiclesStore;
   const [filter, setFilter] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [vehicleCount, setVehicleCount] = useState(vehicles.length);
@@ -43,38 +43,19 @@ function VehiclesPage() {
   };
 
   return (
-    <Container fluid>
-      <div>
-        <Form.Select
-          aria-label="Filter Vehicles by Make"
-          onChange={(e) => setFilter(e.target.value)}
-          className="w-25"
-        >
-          <option value="">Filter by Make</option>
-          {makes.map((make) => {
-            return (
-              <option key={make.id} value={make.id}>
-                {make.Name}
-              </option>
-            );
-          })}
-        </Form.Select>
+    <div className="d-flex mx-3">
+      <Sidebar setFilter={setFilter} />
 
+      <Container fluid className="container">
         <PaginationComponent
           vehicleCount={vehicleCount}
           activePage={activePage}
           setActivePage={setActivePage}
         />
-      </div>
 
-      <Row>{renderVehicles()}</Row>
-
-      <Link to="/add-vehicle">
-        <Button type="button" variant="primary">
-          + Add Vehicle
-        </Button>
-      </Link>
-    </Container>
+        <Row>{renderVehicles()}</Row>
+      </Container>
+    </div>
   );
 }
 
