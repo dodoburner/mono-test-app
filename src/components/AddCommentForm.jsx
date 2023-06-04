@@ -13,7 +13,6 @@ function AddCommentForm({ setApiError, setComments }) {
   const userStore = useContext(UserContext);
   const { user } = userStore;
   const params = useParams();
-
   const authToken = useAuthHeader();
   const {
     register,
@@ -21,6 +20,7 @@ function AddCommentForm({ setApiError, setComments }) {
     formState: { errors },
     reset,
   } = useForm();
+
   const onSubmit = async (data) => {
     try {
       const config = {

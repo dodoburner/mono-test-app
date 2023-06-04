@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, ListGroup } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../common/data";
@@ -21,7 +21,6 @@ function Comments() {
         const res = await axios.get(
           `${API_URL}resources/Comment/?searchQuery=${searchQuery}`
         );
-        console.log(res);
         setComments(res.data.item);
       } catch (err) {
         console.log("Error: ", err);
@@ -46,7 +45,14 @@ function Comments() {
       <h3 className="mt-4 mb-2">Comments ({comments.length})</h3>
       <ListGroup>
         {comments.map((comment) => {
-          return <Comment comment={comment} />
+          return (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              setApiError={setApiError}
+              setComments={setComments}
+            />
+          );
         })}
       </ListGroup>
 
