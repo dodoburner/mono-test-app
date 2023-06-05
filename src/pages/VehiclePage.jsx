@@ -38,7 +38,7 @@ export default function VehiclePage() {
       )}
 
       {vehicle && (
-        <div>
+        <div className="w-50">
           <Card>
             <Card.Img
               variant="top"

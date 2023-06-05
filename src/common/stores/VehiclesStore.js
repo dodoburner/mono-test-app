@@ -12,7 +12,7 @@ class VehiclesStore {
 
   async fetchVehicles() {
     try {
-      const res = await axios.get(`${API_URL}resources/VehicleModel`);
+      const res = await axios.get(`${API_URL}resources/VehicleModel?rpp=10000`);
       runInAction(() => {
         this.vehicles = res.data.item;
       });

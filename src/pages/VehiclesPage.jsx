@@ -36,7 +36,7 @@ function VehiclesPage() {
     );
 
     return currentVehicles.map((vehicle) => (
-      <Col key={vehicle.id} className="mb-4 mt-4">
+      <Col key={vehicle.id} className="mb-4 mt-4 vehicle-col">
         <Vehicle vehicle={vehicle} />
       </Col>
     ));
