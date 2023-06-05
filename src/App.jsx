@@ -9,6 +9,7 @@ import MainLayout from "./layouts/MainLayout";
 import VehiclePage from "./pages/VehiclePage";
 import VehicleEditPage from "./pages/VehicleEditPage";
 import AddVehiclePage from "./pages/AddVehiclePage";
+import AdminPageContainer from "./layouts/AdminPageContainer";
 
 function App() {
   return (
@@ -22,9 +23,12 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/" element={<VehiclesPage />} />
-          <Route path="/add-vehicle" element={<AddVehiclePage />} />
           <Route path="/vehicles/:id" element={<VehiclePage />} />
-          <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
+
+          <Route element={<AdminPageContainer />}>
+            <Route path="/vehicles/:id/edit" element={<VehicleEditPage />} />
+            <Route path="/add-vehicle" element={<AddVehiclePage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>

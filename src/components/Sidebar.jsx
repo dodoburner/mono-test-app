@@ -3,10 +3,13 @@ import { useContext } from "react";
 import { Button, Form, Nav } from "react-bootstrap";
 import VehiclesContext from "../common/context/vehiclesContext";
 import { Link } from "react-router-dom";
+import UserContext from "../common/context/userContext";
 
 function Sidebar({ setFilter }) {
   const vehiclesStore = useContext(VehiclesContext);
+  const userStore = useContext(UserContext);
   const { makes } = vehiclesStore;
+  const { user, isAdmin } = userStore;
 
   return (
     <Nav className="flex-column gap-3">
@@ -26,13 +29,15 @@ function Sidebar({ setFilter }) {
         </Form.Select>
       </Nav.Item>
 
-      <Nav.Item>
-        <Link to="/add-vehicle">
-          <Button type="button" variant="primary">
-            + Add Vehicle
-          </Button>
-        </Link>
-      </Nav.Item>
+      {user && isAdmin && (
+        <Nav.Item>
+          <Link to="/add-vehicle">
+            <Button type="button" variant="primary">
+              + Add Vehicle
+            </Button>
+          </Link>
+        </Nav.Item>
+      )}
     </Nav>
   );
 }
