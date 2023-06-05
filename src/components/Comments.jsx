@@ -56,7 +56,7 @@ function Comments() {
         })}
       </ListGroup>
 
-      {isSignedIn && (
+      {isSignedIn() && (
         <AddCommentForm setApiError={setApiError} setComments={setComments} />
       )}
     </div>
