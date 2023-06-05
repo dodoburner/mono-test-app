@@ -5,11 +5,13 @@ import Vehicle from "../components/Vehicle";
 import { Col, Container, Row } from "react-bootstrap";
 import PaginationComponent from "../components/Pagination";
 import Sidebar from "../components/Sidebar";
+import sorter from "../common/utils/sort";
 
 function VehiclesPage() {
   const vehiclesStore = useContext(VehiclesContext);
   const { vehicles } = vehiclesStore;
   const [filter, setFilter] = useState("");
+  const [sort, setSort] = useState("");
   const [activePage, setActivePage] = useState(1);
   const [vehicleCount, setVehicleCount] = useState(vehicles.length);
 
@@ -18,10 +20,14 @@ function VehiclesPage() {
   }, []);
 
   const renderVehicles = () => {
-    let filteredVehicles = vehicles;
+    let filteredVehicles = [...vehicles];
 
     if (filter) {
       filteredVehicles = vehicles.filter((el) => el.MakeId === filter);
+    }
+
+    if (sort) {
+      sorter(filteredVehicles, sort);
     }
 
     if (vehicleCount !== filteredVehicles.length) {
@@ -44,7 +50,7 @@ function VehiclesPage() {
 
   return (
     <div className="d-flex mx-3">
-      <Sidebar setFilter={setFilter} />
+      <Sidebar setFilter={setFilter} setSort={setSort} />
 
       <Container fluid className="container">
         <PaginationComponent

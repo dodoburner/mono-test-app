@@ -4,8 +4,9 @@ import { Button, Form, Nav } from "react-bootstrap";
 import VehiclesContext from "../common/context/vehiclesContext";
 import { Link } from "react-router-dom";
 import UserContext from "../common/context/userContext";
+import { sortOptions } from "../common/utils/sort";
 
-function Sidebar({ setFilter }) {
+function Sidebar({ setFilter, setSort }) {
   const vehiclesStore = useContext(VehiclesContext);
   const userStore = useContext(UserContext);
   const { makes } = vehiclesStore;
@@ -23,6 +24,22 @@ function Sidebar({ setFilter }) {
             return (
               <option key={make.id} value={make.id}>
                 {make.Name}
+              </option>
+            );
+          })}
+        </Form.Select>
+      </Nav.Item>
+
+      <Nav.Item>
+        <Form.Select
+          aria-label="Sort Vehicles by Option"
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value="">Sort by</option>
+          {sortOptions.map((option, index) => {
+            return (
+              <option key={option} value={option}>
+                {option}
               </option>
             );
           })}

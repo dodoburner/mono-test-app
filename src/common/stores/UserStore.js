@@ -1,6 +1,6 @@
-import { makeAutoObservable, runInAction } from 'mobx';
-import axios from 'axios';
-import API_URL from '../data';
+import { makeAutoObservable, runInAction } from "mobx";
+import axios from "axios";
+import API_URL from "../data";
 
 class UserStore {
   user = null;
@@ -19,7 +19,7 @@ class UserStore {
       const { data } = res;
       runInAction(() => {
         this.user = data;
-        this.isAdmin = data.roles.includes('Administrators');
+        this.isAdmin = data.roles.includes("Administrators");
       });
     } catch (e) {
       console.log(e);
