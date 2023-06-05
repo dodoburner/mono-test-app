@@ -1,5 +1,5 @@
-import React from 'react';
-import userStore from '../stores/UserStore';
+import React from "react";
+import userStore from "../../stores/UserStore";
 
 const UserContext = React.createContext(null);
 

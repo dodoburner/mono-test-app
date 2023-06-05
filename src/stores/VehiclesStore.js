@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import axios from "axios";
-import API_URL from "../data";
+import API_URL from "../common/data";
 
 class VehiclesStore {
   vehicles = [];
