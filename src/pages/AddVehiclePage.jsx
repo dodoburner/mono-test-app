@@ -45,7 +45,6 @@ export default function AddVehiclePage() {
       {apiError && (
         <Alert
           variant="danger m-3 flex-center position-fixed top-0 px-5"
-          dismissible
         >
           {apiError}
         </Alert>
@@ -54,7 +53,6 @@ export default function AddVehiclePage() {
       {successMsg && (
         <Alert
           variant="success m-3 flex-center position-fixed top-0 px-5"
-          dismissible
         >
           {successMsg}
         </Alert>

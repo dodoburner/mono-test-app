@@ -1,4 +1,4 @@
-import { useContext, useEffect, } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -24,50 +24,32 @@ function VehicleEditPage() {
     vehiclesStore.fetchVehicle(params.id);
   }, []);
 
+  useEffect(() => {
+    if (successMsg && successMsg.includes("deleted")) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [successMsg]);
+
   const onSubmit = (data) => {
     vehiclesStore.updateVehicle(data, authToken(), params.id);
   };
 
-  // const onDelete = async () => {
-  //   try {
-  //     const config = {
-  //       headers: { Authorization: authToken() },
-  //     };
-  //     const res = await axios.delete(
-  //       `${API_URL}resources/VehicleModel/${params.id}`,
-  //       config
-  //     );
-
-  //     if (res.status === 204) {
-  //       setSuccessMsg(
-  //         "Successfully deleted the vehicle! Redirecting you to the main page."
-  //       );
-  //       setTimeout(() => {
-  //         navigate("/");
-  //       }, 2000);
-  //     }
-  //   } catch (err) {
-  //     console.log("Error: ", err);
-  //     setApiError(err.message);
-  //   }
-  // };
+  const onDelete = () => {
+    vehiclesStore.deleteVehicle(authToken(), params.id);
+  };
 
   return (
     <div className="container d-flex justify-content-center">
       {error && (
-        <Alert
-          variant="danger m-3 flex-center position-fixed top-0 px-5"
-          dismissible
-        >
+        <Alert variant="danger m-3 flex-center position-fixed top-0 px-5">
           {error}
         </Alert>
       )}
 
       {successMsg && (
-        <Alert
-          variant="success m-3 flex-center position-fixed top-0 px-5"
-          dismissible
-        >
+        <Alert variant="success m-3 flex-center position-fixed top-0 px-5">
           {successMsg}
         </Alert>
       )}
@@ -144,9 +126,9 @@ function VehicleEditPage() {
                 Edit Vehicle
               </Button>
 
-              {/* <Button variant="danger" type="button" onClick={onDelete}>
+              <Button variant="danger" type="button" onClick={onDelete}>
                 Delete Vehicle
-              </Button> */}
+              </Button>
             </div>
           </Form>
         </div>

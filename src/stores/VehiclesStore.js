@@ -8,7 +8,7 @@ class VehiclesStore {
   totalRecords = 0;
   vehicle = null;
   error = null;
-  succesMsg = null;
+  successMsg = null;
   // filterBy = null;
   // sortBy = null;
 
@@ -18,7 +18,6 @@ class VehiclesStore {
 
   async fetchVehicles(page) {
     this.error = null;
-    this.vehicle = null;
 
     try {
       const apiService = new ApiService();
@@ -52,6 +51,8 @@ class VehiclesStore {
   }
 
   async fetchVehicle(id) {
+    this.vehicle = null;
+    this.successMsg = null;
     this.error = null;
 
     try {
@@ -74,9 +75,29 @@ class VehiclesStore {
     try {
       const apiService = new ApiService();
       const res = await apiService.updateVehicle(data, token, id);
+      console.log(res);
       if (res.status === 204) {
         runInAction(() => {
           this.successMsg = "Successfully updated the vehicle!";
+        });
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
+    }
+  }
+
+  async deleteVehicle(token, id) {
+    this.error = null;
+
+    try {
+      const apiService = new ApiService();
+      const res = await apiService.deleteVehicle(token, id);
+      if (res.status === 204) {
+        runInAction(() => {
+          this.successMsg = "Successfully deleted the vehicle! Redirecting you to the main page";
         });
       }
     } catch (err) {
