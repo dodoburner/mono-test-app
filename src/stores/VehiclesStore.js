@@ -1,6 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import axios from "axios";
-import API_URL from "../common/data";
+import ApiService from "../common/services/ApiService";
 
 class VehiclesStore {
   vehicles = [];
@@ -16,10 +15,11 @@ class VehiclesStore {
 
   async fetchVehicles(page) {
     try {
-      const res = await axios.get(`${API_URL}resources/VehicleModel?page=${page}&rpp=8`);
+      const apiService = new ApiService();
+      const data = await apiService.fetchVehicles(page);
       runInAction(() => {
-        this.vehicles = res.data.item;
-        this.totalRecords = res.data.totalRecords;
+        this.vehicles = data.item;
+        this.totalRecords = data.totalRecords;
         this.currentPage = page;
       });
     } catch (e) {
@@ -29,9 +29,10 @@ class VehiclesStore {
 
   async fetchMakes() {
     try {
-      const res = await axios.get(`${API_URL}resources/VehicleMake`);
+      const apiService = new ApiService();
+      const data = await apiService.fetchMakes();
       runInAction(() => {
-        this.makes = res.data.item;
+        this.makes = data.item;
       });
     } catch (e) {
       console.log(e);
