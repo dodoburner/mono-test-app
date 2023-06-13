@@ -4,9 +4,15 @@ import { Button, Form, Nav } from "react-bootstrap";
 import VehiclesContext from "../common/context/vehiclesContext";
 import { Link } from "react-router-dom";
 import UserContext from "../common/context/userContext";
-import { sortOptions } from "../common/utils/sort";
 
-function Sidebar({ setFilter, setSort }) {
+const sortOptions = [
+  "Vehicle Name [a-z]",
+  "Vehicle Name [z-a]",
+  "Vehicle Abrv [a-z]",
+  "Vehicle Abrv [z-a]",
+];
+
+function Sidebar() {
   const vehiclesStore = useContext(VehiclesContext);
   const userStore = useContext(UserContext);
   const { makes } = vehiclesStore;
@@ -17,7 +23,7 @@ function Sidebar({ setFilter, setSort }) {
       <Nav.Item>
         <Form.Select
           aria-label="Filter Vehicles by Make"
-          onChange={(e) => setFilter(e.target.value)}
+          // onChange={(e) => setFilter(e.target.value)}
         >
           <option value="">Filter by Make</option>
           {makes.map((make) => {
@@ -33,7 +39,7 @@ function Sidebar({ setFilter, setSort }) {
       <Nav.Item>
         <Form.Select
           aria-label="Sort Vehicles by Option"
-          onChange={(e) => setSort(e.target.value)}
+          // onChange={(e) => setSort(e.target.value)}
         >
           <option value="">Sort by</option>
           {sortOptions.map((option, index) => {
