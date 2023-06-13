@@ -1,18 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import API_URL from "../common/data";
+import { useContext, useEffect, } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
 import VehiclesContext from "../common/context/vehiclesContext";
+import { observer } from "mobx-react-lite";
 
-export default function VehicleEditPage() {
-  const [vehicle, setVehicle] = useState(null);
-  const [apiError, setApiError] = useState(null);
-  const [successMsg, setSuccessMsg] = useState(null);
+function VehicleEditPage() {
+  const vehiclesStore = useContext(VehiclesContext);
+  const { error, vehicle, makes, successMsg } = vehiclesStore;
   const authToken = useAuthHeader();
   const params = useParams();
   const navigate = useNavigate();
@@ -21,77 +19,47 @@ export default function VehicleEditPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const vehiclesStore = useContext(VehiclesContext);
-  const { makes } = vehiclesStore;
 
   useEffect(() => {
-    const fetchVehicle = async () => {
-      try {
-        const res = await axios.get(
-          `${API_URL}resources/VehicleModel/${params.id}`
-        );
-        setVehicle(res.data);
-      } catch (err) {
-        console.log("Error: ", err);
-        setApiError(err.message);
-      }
-    };
-
-    fetchVehicle();
+    vehiclesStore.fetchVehicle(params.id);
   }, []);
 
-  const onSubmit = async (data) => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const res = await axios.put(
-        `${API_URL}resources/VehicleModel/${params.id}`,
-        data,
-        config
-      );
-
-      if (res.status === 204) {
-        setSuccessMsg("Successfully updated the vehicle!");
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
+  const onSubmit = (data) => {
+    vehiclesStore.updateVehicle(data, authToken(), params.id);
   };
 
-  const onDelete = async () => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const res = await axios.delete(
-        `${API_URL}resources/VehicleModel/${params.id}`,
-        config
-      );
+  // const onDelete = async () => {
+  //   try {
+  //     const config = {
+  //       headers: { Authorization: authToken() },
+  //     };
+  //     const res = await axios.delete(
+  //       `${API_URL}resources/VehicleModel/${params.id}`,
+  //       config
+  //     );
 
-      if (res.status === 204) {
-        setSuccessMsg(
-          "Successfully deleted the vehicle! Redirecting you to the main page."
-        );
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
-  };
+  //     if (res.status === 204) {
+  //       setSuccessMsg(
+  //         "Successfully deleted the vehicle! Redirecting you to the main page."
+  //       );
+  //       setTimeout(() => {
+  //         navigate("/");
+  //       }, 2000);
+  //     }
+  //   } catch (err) {
+  //     console.log("Error: ", err);
+  //     setApiError(err.message);
+  //   }
+  // };
 
   return (
     <div className="container d-flex justify-content-center">
-      {apiError && (
+      {error && (
         <Alert
           variant="danger m-3 flex-center position-fixed top-0 px-5"
           dismissible
         >
-          {apiError}
+          {error}
         </Alert>
       )}
 
@@ -176,9 +144,9 @@ export default function VehicleEditPage() {
                 Edit Vehicle
               </Button>
 
-              <Button variant="danger" type="button" onClick={onDelete}>
+              {/* <Button variant="danger" type="button" onClick={onDelete}>
                 Delete Vehicle
-              </Button>
+              </Button> */}
             </div>
           </Form>
         </div>
@@ -186,3 +154,5 @@ export default function VehicleEditPage() {
     </div>
   );
 }
+
+export default observer(VehicleEditPage);

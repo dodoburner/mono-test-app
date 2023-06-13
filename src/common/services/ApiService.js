@@ -17,4 +17,27 @@ export default class ApiService {
     const res = await axios.get(`${API_URL}resources/VehicleModel/${id}`);
     return res.data;
   }
+
+  async updateVehicle(data, token, id) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    const res = await axios.put(
+      `${API_URL}resources/VehicleModel/${id}`,
+      data,
+      config
+    );
+    return res;
+  }
+
+  async deleteVehicle(token, id) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    const res = await axios.delete(
+      `${API_URL}resources/VehicleModel/${id}`,
+      config
+    );
+    return res;
+  }
 }

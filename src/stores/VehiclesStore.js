@@ -8,6 +8,7 @@ class VehiclesStore {
   totalRecords = 0;
   vehicle = null;
   error = null;
+  succesMsg = null;
   // filterBy = null;
   // sortBy = null;
 
@@ -59,6 +60,25 @@ class VehiclesStore {
       runInAction(() => {
         this.vehicle = data;
       });
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
+    }
+  }
+
+  async updateVehicle(data, token, id) {
+    this.error = null;
+
+    try {
+      const apiService = new ApiService();
+      const res = await apiService.updateVehicle(data, token, id);
+      if (res.status === 204) {
+        runInAction(() => {
+          this.successMsg = "Successfully updated the vehicle!";
+        });
+      }
     } catch (err) {
       console.log("Error: ", err);
       runInAction(() => {
