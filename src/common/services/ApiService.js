@@ -12,4 +12,9 @@ export default class ApiService {
     const res = await axios.get(`${API_URL}resources/VehicleMake?rpp=100`);
     return res.data;
   }
+
+  async fetchVehicle(id) {
+    const res = await axios.get(`${API_URL}resources/VehicleModel/${id}`);
+    return res.data;
+  }
 }

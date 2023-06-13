@@ -6,6 +6,8 @@ class VehiclesStore {
   makes = [];
   currentPage = 1;
   totalRecords = 0;
+  vehicle = null;
+  error = null;
   // filterBy = null;
   // sortBy = null;
 
@@ -14,6 +16,9 @@ class VehiclesStore {
   }
 
   async fetchVehicles(page) {
+    this.error = null;
+    this.vehicle = null;
+
     try {
       const apiService = new ApiService();
       const data = await apiService.fetchVehicles(page);
@@ -22,8 +27,11 @@ class VehiclesStore {
         this.totalRecords = data.totalRecords;
         this.currentPage = page;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
     }
   }
 
@@ -34,8 +42,28 @@ class VehiclesStore {
       runInAction(() => {
         this.makes = data.item;
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
+    }
+  }
+
+  async fetchVehicle(id) {
+    this.error = null;
+
+    try {
+      const apiService = new ApiService();
+      const data = await apiService.fetchVehicle(id);
+      runInAction(() => {
+        this.vehicle = data;
+      });
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
     }
   }
 }

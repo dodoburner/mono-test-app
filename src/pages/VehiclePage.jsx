@@ -1,39 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import API_URL from "../common/data";
 import { Alert, Card } from "react-bootstrap";
 import Comments from "../components/Comments";
+import { observer } from "mobx-react-lite";
+import VehiclesContext from "../common/context/vehiclesContext";
 
-export default function VehiclePage() {
-  const [apiError, setApiError] = useState(null);
-  const [vehicle, setVehicle] = useState(null);
+function VehiclePage() {
+  const vehiclesStore = useContext(VehiclesContext)
+  const { error, vehicle } = vehiclesStore;
   const params = useParams();
 
   useEffect(() => {
-    const fetchVehicle = async () => {
-      try {
-        const res = await axios.get(
-          `${API_URL}resources/VehicleModel/${params.id}`
-        );
-        setVehicle(res.data);
-      } catch (err) {
-        console.log("Error: ", err);
-        setApiError(err.message);
-      }
-    };
-
-    fetchVehicle();
+    vehiclesStore.fetchVehicle(params.id);
   }, []);
 
   return (
     <div className="container d-flex flex-column align-items-center">
-      {apiError && (
+      {error && (
         <Alert
           variant="danger m-3 flex-center position-fixed top-0 px-5"
           dismissible
         >
-          {apiError}
+          {error}
         </Alert>
       )}
 
@@ -60,3 +48,5 @@ export default function VehiclePage() {
     </div>
   );
 }
+
+export default observer(VehiclePage);
