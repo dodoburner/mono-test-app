@@ -1,6 +1,4 @@
 import { useContext } from "react";
-import axios from "axios";
-import API_URL from "../common/data";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import UserContext from "../common/context/userContext";
@@ -8,8 +6,9 @@ import { useForm } from "react-hook-form";
 import { useAuthHeader } from "react-auth-kit";
 import { Form } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import commentsStore from "../stores/CommentsStore";
 
-function AddCommentForm({ setApiError, setComments }) {
+function AddCommentForm() {
   const userStore = useContext(UserContext);
   const { user } = userStore;
   const params = useParams();
@@ -21,27 +20,9 @@ function AddCommentForm({ setApiError, setComments }) {
     reset,
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const body = {
-        Text: data.Text,
-        UserId: user.id,
-        VehicleId: params.id,
-        Username: user.displayName,
-      };
-      const res = await axios.post(`${API_URL}resources/Comment`, body, config);
-
-      if (res.status === 201) {
-        setComments((prev) => [...prev, res.data]);
-        reset();
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
+  const onSubmit = (data) => {
+    commentsStore.addComment(data, params.id, user, authToken());
+    reset();
   };
 
   return (

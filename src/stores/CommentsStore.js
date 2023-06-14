@@ -40,6 +40,28 @@ class CommentsStore {
       });
     }
   }
+
+  async addComment(data, vehicleId, user, token) {
+    try {
+      const commentsService = new CommentsService();
+      const res = await commentsService.addComment(
+        data,
+        vehicleId,
+        user,
+        token
+      );
+      if (res.status === 201) {
+        runInAction(() => {
+          this.comments.push(res.data);
+        });
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
+    }
+  }
 }
 
 const commentsStore = new CommentsStore();

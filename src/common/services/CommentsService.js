@@ -17,4 +17,18 @@ export default class CommentsService {
     const res = await axios.delete(`${API_URL}resources/Comment/${id}`, config);
     return res;
   }
+
+  async addComment(data, vehicleId, user, token) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    const body = {
+      Text: data.Text,
+      UserId: user.id,
+      VehicleId: vehicleId,
+      Username: user.displayName,
+    };
+    const res = await axios.post(`${API_URL}resources/Comment`, body, config);
+    return res;
+  }
 }
