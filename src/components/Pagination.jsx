@@ -5,7 +5,7 @@ import VehiclesContext from "../common/context/vehiclesContext";
 
 function PaginationComponent() {
   const vehiclesStore = useContext(VehiclesContext);
-  const { totalRecords, currentPage } = vehiclesStore;
+  const { totalRecords, currentPage, sort } = vehiclesStore;
 
   const pages = Math.ceil(totalRecords / 8);
   let items = [];
@@ -15,7 +15,7 @@ function PaginationComponent() {
       <Pagination.Item
         key={i}
         active={i === currentPage}
-        onClick={() => vehiclesStore.fetchVehicles(i)}
+        onClick={() => vehiclesStore.fetchVehicles(i, sort)}
       >
         {i}
       </Pagination.Item>

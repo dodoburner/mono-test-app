@@ -2,12 +2,13 @@ import axios from "axios";
 import API_URL from "../data";
 
 export default class VehiclesService {
-  async fetchVehicles(page) {
+  async fetchVehicles(page, sort) {
     const res = await axios.get(
-      `${API_URL}resources/VehicleModel?page=${page}&rpp=8`
+      `${API_URL}resources/VehicleModel?page=${page}&rpp=8&sort=${sort}`
     );
     return res.data;
   }
+
   async fetchMakes() {
     const res = await axios.get(`${API_URL}resources/VehicleMake?rpp=100`);
     return res.data;

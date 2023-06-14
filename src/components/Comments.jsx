@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Alert, ListGroup } from "react-bootstrap";
-import axios from "axios";
-import API_URL from "../common/data";
 import { useParams } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import AddCommentForm from "./AddCommentForm";

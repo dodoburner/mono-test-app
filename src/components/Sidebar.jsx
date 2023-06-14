@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import UserContext from "../common/context/userContext";
 
 const sortOptions = [
-  "Vehicle Name [a-z]",
-  "Vehicle Name [z-a]",
-  "Vehicle Abrv [a-z]",
-  "Vehicle Abrv [z-a]",
+  { name: "Vehicle Name [a-z]", sort: "Name|asc" },
+  { name: "Vehicle Name [z-a]", sort: "Name|dsc" },
+  { name: "Vehicle Abrv [a-z]", sort: "Abrv|asc" },
+  { name: "Vehicle Abrv [z-a]", sort: "Abrv|dsc" },
 ];
 
 function Sidebar() {
@@ -23,9 +23,9 @@ function Sidebar() {
       <Nav.Item>
         <Form.Select
           aria-label="Filter Vehicles by Make"
-          // onChange={(e) => setFilter(e.target.value)}
+          // onChange={(e) => vehiclesStore.fetchVehicles(1, e.target.value)}
         >
-          <option value="">Filter by Make</option>
+          <option value="undefined">Filter by Make</option>
           {makes.map((make) => {
             return (
               <option key={make.id} value={make.id}>
@@ -39,13 +39,13 @@ function Sidebar() {
       <Nav.Item>
         <Form.Select
           aria-label="Sort Vehicles by Option"
-          // onChange={(e) => setSort(e.target.value)}
+          onChange={(e) => vehiclesStore.fetchVehicles(1, e.target.value)}
         >
           <option value="">Sort by</option>
-          {sortOptions.map((option, index) => {
+          {sortOptions.map((option) => {
             return (
-              <option key={option} value={option}>
-                {option}
+              <option key={option.name} value={option.sort}>
+                {option.name}
               </option>
             );
           })}
