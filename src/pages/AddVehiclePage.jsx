@@ -1,16 +1,13 @@
-import { useContext, useState } from "react";
-import API_URL from "../common/data";
-import axios from "axios";
+import { useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
 import VehiclesContext from "../common/context/vehiclesContext";
+import { observer } from "mobx-react-lite";
 
-export default function AddVehiclePage() {
-  const [apiError, setApiError] = useState(null);
-  const [successMsg, setSuccessMsg] = useState(null);
+function AddVehiclePage() {
   const authToken = useAuthHeader();
   const {
     register,
@@ -18,42 +15,22 @@ export default function AddVehiclePage() {
     formState: { errors },
   } = useForm();
   const vehiclesStore = useContext(VehiclesContext);
-  const { makes } = vehiclesStore;
+  const { makes, error, successMsg } = vehiclesStore;
 
-  const onSubmit = async (data) => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const res = await axios.post(
-        `${API_URL}resources/VehicleModel`,
-        data,
-        config
-      );
-
-      if (res.status === 201) {
-        setSuccessMsg("Successfully added the vehicle!");
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
+  const onSubmit = (data) => {
+    vehiclesStore.addVehicle(data, authToken());
   };
 
   return (
     <div className="container d-flex justify-content-center">
-      {apiError && (
-        <Alert
-          variant="danger m-3 flex-center position-fixed top-0 px-5"
-        >
-          {apiError}
+      {error && (
+        <Alert variant="danger m-3 flex-center position-fixed top-0 px-5">
+          {error}
         </Alert>
       )}
 
       {successMsg && (
-        <Alert
-          variant="success m-3 flex-center position-fixed top-0 px-5"
-        >
+        <Alert variant="success m-3 flex-center position-fixed top-0 px-5">
           {successMsg}
         </Alert>
       )}
@@ -125,3 +102,5 @@ export default function AddVehiclePage() {
     </div>
   );
 }
+
+export default observer(AddVehiclePage);

@@ -40,4 +40,16 @@ export default class ApiService {
     );
     return res;
   }
+
+  async addVehicle(data, token) {
+    const config = {
+      headers: { Authorization: token },
+    };
+    const res = await axios.post(
+      `${API_URL}resources/VehicleModel`,
+      data,
+      config
+    );
+    return res;
+  }
 }

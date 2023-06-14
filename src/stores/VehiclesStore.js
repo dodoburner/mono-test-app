@@ -18,6 +18,7 @@ class VehiclesStore {
 
   async fetchVehicles(page) {
     this.error = null;
+    this.successMsg = null;
 
     try {
       const apiService = new ApiService();
@@ -75,7 +76,6 @@ class VehiclesStore {
     try {
       const apiService = new ApiService();
       const res = await apiService.updateVehicle(data, token, id);
-      console.log(res);
       if (res.status === 204) {
         runInAction(() => {
           this.successMsg = "Successfully updated the vehicle!";
@@ -97,7 +97,27 @@ class VehiclesStore {
       const res = await apiService.deleteVehicle(token, id);
       if (res.status === 204) {
         runInAction(() => {
-          this.successMsg = "Successfully deleted the vehicle! Redirecting you to the main page";
+          this.successMsg =
+            "Successfully deleted the vehicle! Redirecting you to the main page";
+        });
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      runInAction(() => {
+        this.error = err.message;
+      });
+    }
+  }
+
+  async addVehicle(data, token) {
+    this.error = null;
+
+    try {
+      const apiService = new ApiService();
+      const res = await apiService.addVehicle(data, token);
+      if (res.status === 201) {
+        runInAction(() => {
+          this.successMsg = "Successfully added the vehicle!";
         });
       }
     } catch (err) {
