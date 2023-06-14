@@ -3,9 +3,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import { useForm } from "react-hook-form";
-import axios, { AxiosError } from "axios";
 import { Link } from "react-router-dom";
-import API_URL from "../common/data";
+import UserService from "../common/services/UserService";
 
 export default function Signup() {
   const [apiError, setApiError] = useState("");
@@ -18,19 +17,10 @@ export default function Signup() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const { username, email, password, confirmPassword } = data;
-
     try {
-      const body = {
-        username,
-        email,
-        password,
-        confirmPassword,
-        activationUrl:
-          "http://localhost:3000/activate?activationToken={activationToken}",
-      };
-      const response = await axios.post(`${API_URL}register`, body);
-      if (response.status === 200) {
+      const userService = new UserService();
+      const res = userService.signup(data);
+      if (res.status === 200) {
         setMessage("Please check your email to confirm you account");
       }
     } catch (err) {

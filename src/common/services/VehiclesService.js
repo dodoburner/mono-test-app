@@ -1,7 +1,7 @@
 import axios from "axios";
 import API_URL from "../data";
 
-export default class ApiService {
+export default class VehiclesService {
   async fetchVehicles(page) {
     const res = await axios.get(
       `${API_URL}resources/VehicleModel?page=${page}&rpp=8`

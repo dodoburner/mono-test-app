@@ -1,6 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import axios from "axios";
-import API_URL from "../common/data";
+import UserService from "../common/services/UserService";
 
 class UserStore {
   user = null;
@@ -12,11 +11,8 @@ class UserStore {
 
   async fetchUser(token) {
     try {
-      const config = {
-        headers: { Authorization: token },
-      };
-      const res = await axios.get(`${API_URL}login`, config);
-      const { data } = res;
+      const userService = new UserService();
+      const data = await userService.fetchUser(token);
       runInAction(() => {
         this.user = data;
         this.isAdmin = data.roles.includes("Administrators");

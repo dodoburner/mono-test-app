@@ -3,10 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignIn } from "react-auth-kit";
-import API_URL from "../common/data";
+import UserService from "../common/services/UserService";
 
 export default function Login() {
   const [loginError, setLoginError] = useState("");
@@ -19,18 +18,9 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    const { username, password } = data;
-
     try {
-      const config = {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      };
-      const body = {
-        username,
-        password,
-        grant_type: "password",
-      };
-      const res = await axios.post(`${API_URL}login`, body, config);
+      const userService = new UserService();
+      const res = await userService.login(data);
       const { access_token, expires_in, token_type } = res.data;
 
       if (

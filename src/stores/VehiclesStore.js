@@ -1,5 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import ApiService from "../common/services/ApiService";
+import VehiclesService from "../common/services/VehiclesService";
 
 class VehiclesStore {
   vehicles = [];
@@ -21,8 +21,8 @@ class VehiclesStore {
     this.successMsg = null;
 
     try {
-      const apiService = new ApiService();
-      const data = await apiService.fetchVehicles(page);
+      const vehiclesService = new VehiclesService();
+      const data = await vehiclesService.fetchVehicles(page);
       runInAction(() => {
         this.vehicles = data.item;
         this.totalRecords = data.totalRecords;
@@ -38,8 +38,8 @@ class VehiclesStore {
 
   async fetchMakes() {
     try {
-      const apiService = new ApiService();
-      const data = await apiService.fetchMakes();
+      const vehiclesService = new VehiclesService();
+      const data = await vehiclesService.fetchMakes();
       runInAction(() => {
         this.makes = data.item;
       });
@@ -57,8 +57,8 @@ class VehiclesStore {
     this.error = null;
 
     try {
-      const apiService = new ApiService();
-      const data = await apiService.fetchVehicle(id);
+      const vehiclesService = new VehiclesService();
+      const data = await vehiclesService.fetchVehicle(id);
       runInAction(() => {
         this.vehicle = data;
       });
@@ -74,8 +74,8 @@ class VehiclesStore {
     this.error = null;
 
     try {
-      const apiService = new ApiService();
-      const res = await apiService.updateVehicle(data, token, id);
+      const vehiclesService = new VehiclesService();
+      const res = await vehiclesService.updateVehicle(data, token, id);
       if (res.status === 204) {
         runInAction(() => {
           this.successMsg = "Successfully updated the vehicle!";
@@ -93,8 +93,8 @@ class VehiclesStore {
     this.error = null;
 
     try {
-      const apiService = new ApiService();
-      const res = await apiService.deleteVehicle(token, id);
+      const vehiclesService = new VehiclesService();
+      const res = await vehiclesService.deleteVehicle(token, id);
       if (res.status === 204) {
         runInAction(() => {
           this.successMsg =
@@ -113,8 +113,8 @@ class VehiclesStore {
     this.error = null;
 
     try {
-      const apiService = new ApiService();
-      const res = await apiService.addVehicle(data, token);
+      const vehiclesService = new VehiclesService();
+      const res = await vehiclesService.addVehicle(data, token);
       if (res.status === 201) {
         runInAction(() => {
           this.successMsg = "Successfully added the vehicle!";
