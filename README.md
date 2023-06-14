@@ -23,7 +23,7 @@ To get a local copy up and running follow these simple example steps.
 
 1. Clone this repository on your local machine
 2. Navigate to the project folder using your terminal
-3. Start the server by running npm start
+3. Start the server on port 3000 by running npm start
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
