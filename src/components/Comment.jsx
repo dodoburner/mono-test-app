@@ -3,33 +3,15 @@ import { useContext } from "react";
 import UserContext from "../common/context/userContext";
 import { Button, ListGroup } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
-import axios from "axios";
-import API_URL from "../common/data";
+import commentsStore from "../stores/CommentsStore";
 
-function Comment({ comment, setComments, setApiError }) {
+function Comment({ comment }) {
   const userStore = useContext(UserContext);
   const { user } = userStore;
   const authToken = useAuthHeader();
 
-  const onDelete = async () => {
-    try {
-      const config = {
-        headers: { Authorization: authToken() },
-      };
-      const res = await axios.delete(
-        `${API_URL}resources/Comment/${comment.id}`,
-        config
-      );
-
-      if (res.status === 204) {
-        setComments((prev) => {
-          return prev.filter((el) => el.id !== comment.id);
-        });
-      }
-    } catch (err) {
-      console.log("Error: ", err);
-      setApiError(err.message);
-    }
+  const onDelete = () => {
+    commentsStore.deleteComment(comment.id, authToken());
   };
 
   return (
