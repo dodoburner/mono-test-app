@@ -10,23 +10,25 @@ class VehiclesStore {
   error = null;
   successMsg = null;
   sort = null;
+  filter = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  async fetchVehicles(page, sort) {
+  async fetchVehicles(page, sort, filter) {
     this.error = null;
     this.successMsg = null;
 
     try {
       const vehiclesService = new VehiclesService();
-      const data = await vehiclesService.fetchVehicles(page, sort);
+      const data = await vehiclesService.fetchVehicles(page, sort, filter);
       runInAction(() => {
         this.vehicles = data.item;
         this.totalRecords = data.totalRecords;
         this.currentPage = page;
         this.sort = sort;
+        this.filter = filter;
       });
     } catch (err) {
       console.log("Error: ", err);

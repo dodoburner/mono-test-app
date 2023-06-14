@@ -15,7 +15,7 @@ const sortOptions = [
 function Sidebar() {
   const vehiclesStore = useContext(VehiclesContext);
   const userStore = useContext(UserContext);
-  const { makes } = vehiclesStore;
+  const { makes, sort, filter } = vehiclesStore;
   const { user, isAdmin } = userStore;
 
   return (
@@ -23,9 +23,9 @@ function Sidebar() {
       <Nav.Item>
         <Form.Select
           aria-label="Filter Vehicles by Make"
-          // onChange={(e) => vehiclesStore.fetchVehicles(1, e.target.value)}
+          onChange={(e) => vehiclesStore.fetchVehicles(1, sort, e.target.value)}
         >
-          <option value="undefined">Filter by Make</option>
+          <option>Filter by Make</option>
           {makes.map((make) => {
             return (
               <option key={make.id} value={make.id}>
@@ -39,9 +39,11 @@ function Sidebar() {
       <Nav.Item>
         <Form.Select
           aria-label="Sort Vehicles by Option"
-          onChange={(e) => vehiclesStore.fetchVehicles(1, e.target.value)}
+          onChange={(e) =>
+            vehiclesStore.fetchVehicles(1, e.target.value, filter)
+          }
         >
-          <option value="">Sort by</option>
+          <option>Sort by</option>
           {sortOptions.map((option) => {
             return (
               <option key={option.name} value={option.sort}>

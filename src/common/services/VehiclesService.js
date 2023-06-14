@@ -2,10 +2,18 @@ import axios from "axios";
 import API_URL from "../data";
 
 export default class VehiclesService {
-  async fetchVehicles(page, sort) {
-    const res = await axios.get(
-      `${API_URL}resources/VehicleModel?page=${page}&rpp=8&sort=${sort}`
-    );
+  async fetchVehicles(page, sort, filter) {
+    const searchQuery = `WHERE MakeId = '${filter}'`;
+    let res;
+    if (filter) {
+      res = await axios.get(
+        `${API_URL}resources/VehicleModel?page=${page}&rpp=8&sort=${sort}&searchQuery=${searchQuery}`
+      );
+    } else {
+      res = await axios.get(
+        `${API_URL}resources/VehicleModel?page=${page}&rpp=8&sort=${sort}`
+      );
+    }
     return res.data;
   }
 
