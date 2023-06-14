@@ -10,6 +10,8 @@ class CommentsStore {
   }
 
   async fetchComments(id) {
+    this.error = null;
+
     try {
       const commentsService = new CommentsService();
       const data = await commentsService.fetchComments(id);
@@ -25,6 +27,8 @@ class CommentsStore {
   }
 
   async deleteComment(id, token) {
+    this.error = null;
+
     try {
       const commentsService = new CommentsService();
       const res = await commentsService.deleteComment(id, token);
@@ -42,6 +46,8 @@ class CommentsStore {
   }
 
   async addComment(data, vehicleId, user, token) {
+    this.error = null;
+
     try {
       const commentsService = new CommentsService();
       const res = await commentsService.addComment(
