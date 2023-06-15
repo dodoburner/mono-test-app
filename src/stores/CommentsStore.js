@@ -9,9 +9,12 @@ class CommentsStore {
     makeAutoObservable(this);
   }
 
-  async fetchComments(id) {
+  clearComments() {
+    this.comments = []
     this.error = null;
+  }
 
+  async fetchComments(id) {
     try {
       const commentsService = new CommentsService();
       const data = await commentsService.fetchComments(id);

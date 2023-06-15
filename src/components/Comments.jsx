@@ -14,6 +14,9 @@ function Comments() {
 
   useEffect(() => {
     commentsStore.fetchComments(params.id);
+    return () => {
+      commentsStore.clearComments();
+    };
   }, []);
 
   return (

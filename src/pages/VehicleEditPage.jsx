@@ -7,7 +7,6 @@ import { Alert } from "react-bootstrap";
 import { useAuthHeader } from "react-auth-kit";
 import VehiclesContext from "../common/context/vehiclesContext";
 import { observer } from "mobx-react-lite";
-import { toJS } from "mobx";
 
 function VehicleEditPage() {
   const vehiclesStore = useContext(VehiclesContext);
