@@ -19,7 +19,7 @@ export default function Signup() {
   const onSubmit = async (data) => {
     try {
       const userService = new UserService();
-      const res = userService.signup(data);
+      const res = await userService.signup(data);
       if (res.status === 200) {
         setMessage("Please check your email to confirm you account");
       }
