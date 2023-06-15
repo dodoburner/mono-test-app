@@ -16,10 +16,13 @@ class VehiclesStore {
     makeAutoObservable(this);
   }
 
-  async fetchVehicles(page, sort, filter) {
+  clearVehicle() {
+    this.vehicle = null;
     this.error = null;
     this.successMsg = null;
+  }
 
+  async fetchVehicles(page, sort, filter) {
     try {
       const vehiclesService = new VehiclesService();
       const data = await vehiclesService.fetchVehicles(page, sort, filter);
@@ -54,10 +57,6 @@ class VehiclesStore {
   }
 
   async fetchVehicle(id) {
-    this.vehicle = null;
-    this.successMsg = null;
-    this.error = null;
-
     try {
       const vehiclesService = new VehiclesService();
       const data = await vehiclesService.fetchVehicle(id);

@@ -6,12 +6,15 @@ import { observer } from "mobx-react-lite";
 import VehiclesContext from "../common/context/vehiclesContext";
 
 function VehiclePage() {
-  const vehiclesStore = useContext(VehiclesContext)
+  const vehiclesStore = useContext(VehiclesContext);
   const { error, vehicle } = vehiclesStore;
   const params = useParams();
 
   useEffect(() => {
     vehiclesStore.fetchVehicle(params.id);
+    return () => {
+      vehiclesStore.clearVehicle();
+    };
   }, []);
 
   return (
